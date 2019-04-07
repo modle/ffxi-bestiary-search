@@ -6,6 +6,8 @@ abs_path = os.path.dirname(os.path.abspath(__file__))
 the_file = '{}/ffxi-db.csv'.format(abs_path)
 
 LVL_DIFF = 10
+MIN_CHECK_LVL = -999
+MAX_CHECK_LVL = 999
 
 NAME_INDEX = 1
 FAMILY_INDEX = 2
@@ -13,6 +15,7 @@ TYPE_INDEX = 3
 ZONE_INDEX = 5
 MIN_LEVEL_INDEX = 10
 MAX_LEVEL_INDEX = 11
+
 
 def print_matches(matches):
     for entry in matches:
@@ -24,6 +27,7 @@ def print_matches(matches):
                 entry[TYPE_INDEX],
                 entry[ZONE_INDEX])
             )
+
 
 while (True):
     # refresh the data every execution, because iterators
@@ -45,7 +49,6 @@ while (True):
             print ("invalid lvl, need int, got '{}'".format(target_lvl))
             continue
 
-        matches = 0
         type_matches = []
         family_matches = []
         name_matches = []
@@ -56,28 +59,27 @@ while (True):
             family_check = str(row[FAMILY_INDEX]).lower()
             name_check = str(row[NAME_INDEX]).lower()
             zone_check = str(row[ZONE_INDEX]).lower()
-            min_check_lvl = -999
-            max_check_lvl = 999
+
             try:
-                min_check_lvl = int(row[MIN_LEVEL_INDEX])
+                MIN_CHECK_LVL = int(row[MIN_LEVEL_INDEX])
             except:
                 continue
 
             try:
-                max_check_lvl = int(row[MAX_LEVEL_INDEX])
+                MAX_CHECK_LVL = int(row[MAX_LEVEL_INDEX])
             except:
                 continue
 
-            if target in type_check and min_check_lvl > min_lvl and max_check_lvl < max_lvl:
+            if target in type_check and MIN_CHECK_LVL > min_lvl and MAX_CHECK_LVL < max_lvl:
                 type_matches.append(row)
 
-            if target in family_check and min_check_lvl > min_lvl and max_check_lvl < max_lvl:
+            if target in family_check and MIN_CHECK_LVL > min_lvl and MAX_CHECK_LVL < max_lvl:
                 family_matches.append(row)
 
-            if target in name_check and min_check_lvl > min_lvl and max_check_lvl < max_lvl:
+            if target in name_check and MIN_CHECK_LVL > min_lvl and MAX_CHECK_LVL < max_lvl:
                 name_matches.append(row)
 
-            if target in zone_check and min_check_lvl > min_lvl and max_check_lvl < max_lvl:
+            if target in zone_check and MIN_CHECK_LVL > min_lvl and MAX_CHECK_LVL < max_lvl:
                 zone_matches.append(row)
 
         print ("\n{} type matches:".format(len(type_matches)))
